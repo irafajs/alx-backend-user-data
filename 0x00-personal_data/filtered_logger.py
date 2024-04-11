@@ -9,6 +9,10 @@ import re
 from typing import List as lt
 
 
+LOG_FILE = 'user_data.log'
+PII_FIELDS = ('name', 'email', 'phone', 'address', 'credit_card')
+
+
 def filter_datum(
         fields: lt[str], redaction: str, message: str, separator: str) -> str:
     """method to filter words and replace them"""
@@ -36,3 +40,16 @@ class RedactingFormatter(logging.Formatter):
         record.msg = filter_datum(
                 self.fields, self.REDACTION, record.msg, self.SEPARATOR)
         return super().format(record)
+
+
+def get_logger() -> logging.Logger:
+    """method to get logger"""
+    logger = logging.getLogger('user_data')
+    logger.setLevel(logging.INFO)
+
+    formatter = RedactingFormatter(fields=PII_FIELDS)
+    stream_handler = logging.StreamHandler()
+    stream_handler.setFormatter(formatter)
+
+    logger.addHandler(stream_handler)
+    return logger
