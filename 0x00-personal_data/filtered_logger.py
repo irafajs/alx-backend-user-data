@@ -8,8 +8,7 @@ import re
 from typing import List as lt
 
 
-def filter_datum(
-        fields: lt[str], redaction: str, message: str, separator: str) -> str:
+def filter_datum(fields: lt[str], redaction: str, message: str, separator: str) -> str:
     """method to filter words and replace them"""
     for field in fields:
         pattern = re.escape(field) + r"=([^" + re.escape(separator) + r"]+)"
