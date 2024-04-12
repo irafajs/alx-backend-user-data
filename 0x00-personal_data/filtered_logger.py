@@ -12,7 +12,7 @@ from typing import List as lt
 
 
 LOG_FILE = 'user_data.log'
-PII_FIELDS = ('name', 'email', 'phone', 'address', 'credit_card')
+PII_FIELDS = ('name', 'email', 'phone', 'ssn', 'password')
 
 
 def filter_datum(
@@ -70,3 +70,21 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
         host=host,
         database=db_name
     )
+
+
+def main():
+    """main method to return formated log"""
+    logger = get_logger()
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM users")
+    for row in cursor.fetchall():
+        user_data = '; '.join([f"{field}={row[i]}" for i, field in enumerate(
+            cursor.column_names)])
+        logger.info(user_data)
+    cursor.close()
+    db.close()
+
+
+if __name__ == "__main__":
+    main()
