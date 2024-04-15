@@ -30,3 +30,9 @@ def stats() -> str:
 def unauthorized() -> str:
     """unauthorized route to handle unaut"""
     return jsonify({"error": "Unauthorized"})
+
+
+@app_views.route('/forbidden', methods=['GET'], strict_slashes=False)
+def forbidden() -> str:
+    """forbidden route to handle forbidden"""
+    return jsonify({"error": "Forbidden"})
