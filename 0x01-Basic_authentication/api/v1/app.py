@@ -26,7 +26,6 @@ if auth_type == 'basic_auth':
 @app.before_request
 def before_request():
     """method to filter before request filtering"""
-    print(f"before request is starting {request.path}")
     if auth is None:
         return
     excluded_paths = [
