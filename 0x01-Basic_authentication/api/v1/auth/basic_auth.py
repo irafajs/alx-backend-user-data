@@ -4,6 +4,7 @@ Shebang to create a PY script
 """
 
 
+import base64
 from api.v1.auth.auth import Auth
 
 
@@ -20,3 +21,18 @@ class BasicAuth(Auth):
         else:
             auth_type = authorization_header.split()
             return auth_type[1]
+
+    def decode_base64_authorization_header(
+            self, base64_authorization_header: str) -> str:
+        """method to decode the header"""
+        if base64_authorization_header is None:
+            return None
+        if not isinstance(
+                base64_authorization_header, str):
+            return None
+        try:
+            decoded_bytes = base64.b64decode(base64_authorization_header)
+            decoded_string = decoded_bytes.decode('utf-8')
+            return decoded_string
+        except Exception as e:
+            return None
