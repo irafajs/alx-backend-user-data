@@ -24,7 +24,12 @@ class Auth:
 
     def authorization_header(self, request=None) -> str:
         """method to handle flask request object"""
-        return None
+        if request is None:
+            return None
+        elif 'Authorization' not in request.headers:
+            return None
+        else:
+            return request.headers['Authorization']
 
     def current_user(self, request=None) -> TypeVar('User'):
         """method to handle current user"""
