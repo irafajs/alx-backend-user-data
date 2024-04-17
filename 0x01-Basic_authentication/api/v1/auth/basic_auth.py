@@ -46,8 +46,8 @@ class BasicAuth(Auth):
             return (None, None)
         if not isinstance(decoded_base64_authorization_header, str):
             return (None, None)
-        user_email, _, user_pwd = decoded_base64_authorization_header.partition(':')
-        return (user_email, user_pwd)
+        u_mail, _, u_pwd = decoded_base64_authorization_header.partition(':')
+        return (u_mail, u_pwd)
 
     def user_object_from_credentials(
             self, user_email: str, user_pwd: str) -> TypeVar('User'):
