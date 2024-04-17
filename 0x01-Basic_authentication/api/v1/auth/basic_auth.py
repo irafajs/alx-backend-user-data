@@ -46,10 +46,8 @@ class BasicAuth(Auth):
             return (None, None)
         if not isinstance(decoded_base64_authorization_header, str):
             return (None, None)
-        colon_exist = decoded_base64_authorization_header.find(':')
-        if colon_exist == -1:
-            return (None, None)
-        return tuple(decoded_base64_authorization_header.split(':'))
+        user_email, _, user_pwd = decoded_base64_authorization_header.partition(':')
+        return (user_email, user_pwd)
 
     def user_object_from_credentials(
             self, user_email: str, user_pwd: str) -> TypeVar('User'):
