@@ -5,6 +5,8 @@ Shebang to create a PY script
 
 
 from flask import request
+import os
+from os import getenv
 from typing import List, TypeVar
 
 
@@ -36,3 +38,10 @@ class Auth:
     def current_user(self, request=None) -> TypeVar('User'):
         """method to handle current user"""
         return None
+
+    def session_cookie(self, request=None):
+        """method that returns a cooke value from a request"""
+        if request is None:
+            return None
+        session_name = os.getenv('SESSION_NAME', '_my_session_id')
+        return request.cookies.get(session_name)
