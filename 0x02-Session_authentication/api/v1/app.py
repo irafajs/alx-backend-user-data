@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Route module for the API
+Shebang to create a PY script
 """
 from os import getenv
 from api.v1.views import app_views
