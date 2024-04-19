@@ -28,7 +28,7 @@ elif auth_type == 'session_auth':
 
 @app.before_request
 def before_request():
-    """method to filter before request filtering"""
+    """method to run before all others"""
     if auth is None:
         return
     excluded_paths = [
@@ -49,20 +49,20 @@ def before_request():
 
 @app.errorhandler(404)
 def not_found(error) -> str:
-    """ Not found handler
+    """ method to handle no found routes
     """
     return jsonify({"error": "Not found"}), 404
 
 
 @app.errorhandler(401)
 def unauthorized(error) -> str:
-    """not authorized handler"""
+    """method to handle not authorized routes"""
     return jsonify({"error": "Unauthorized"}), 401
 
 
 @app.errorhandler(403)
 def forbidden(error) -> str:
-    """Forbiden handler"""
+    """method to handle forbiden(403) routes"""
     return jsonify({"error": "Forbidden"}), 403
 
 
