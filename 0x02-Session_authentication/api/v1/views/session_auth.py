@@ -1,4 +1,4 @@
-#!/usr/bin/env pythin3
+#!/usr/bin/env python3
 """
 Shebang to create a py script
 """
