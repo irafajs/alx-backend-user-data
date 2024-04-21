@@ -9,6 +9,5 @@ from api.v1.views.index import *
 from api.v1.views.users import *
 from api.v1.auth.session_auth import *
 
-from api.v1.auth.session_auth import session_login
 
 User.load_from_file()
