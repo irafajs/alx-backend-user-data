@@ -2,9 +2,11 @@
 """DB module
 """
 from sqlalchemy import create_engine
+from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
+from sqlalchemy.orm.exc import NoResultFound
 from user import User
 from user import Base
 
@@ -32,11 +34,19 @@ class DB:
 
     def add_user(self, email: str, hashed_password: str) -> User:
         """method to save user to the database"""
-        try:
-            user = User(email=email, hashed_password=hashed_password)
-            self._session.add(user)
-            self._session.commit()
-        except Exception as e:
-            sef._session.rollback()
-            user = None
+        user = User(email=email, hashed_password=hashed_password)
+        self._session.add(user)
+        self._session.commit()
         return user
+
+    def find_user_by(self, **kwargs) -> User:
+        """
+        method accept arbitary keyword arg and return 1 row from users table
+        """
+        try:
+            user = self._session.query(User).filter_by(**kwargs).one()
+            return user
+        except NoResultFound:
+            raise NoResultFound("No user found with this parameters")
+        except InvalidRequestError as e:
+            raise InvalidRequestError(f"Invalid query arguments: {str(e)}")
