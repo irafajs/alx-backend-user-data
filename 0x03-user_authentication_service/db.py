@@ -18,7 +18,7 @@ class DB:
     def __init__(self) -> None:
         """Initialize a new DB instance
         """
-        self._engine = create_engine("sqlite:///a.db", echo=True)
+        self._engine = create_engine("sqlite:///a.db", echo=False)
         Base.metadata.drop_all(self._engine)
         Base.metadata.create_all(self._engine)
         self.__session = None
@@ -43,10 +43,10 @@ class DB:
         """
         method accept arbitary keyword arg and return 1 row from users table
         """
-        try:
-            user = self._session.query(User).filter_by(**kwargs).one()
-            return user
-        except NoResultFound:
-            raise NoResultFound("No user found with this parameters")
-        except InvalidRequestError as e:
-            raise InvalidRequestError(f"Invalid query arguments: {str(e)}")
+        for key in kwargs.keys():
+            if not hasattr(User, key):
+                raise InvalidRequestError
+        user = self._session.query(User).filter_by(**kwargs).one()
+        if user is None:
+            raise NoResultFound
+        return user
