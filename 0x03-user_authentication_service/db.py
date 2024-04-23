@@ -50,3 +50,13 @@ class DB:
         if user is None:
             raise NoResultFound
         return user
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """update the user indentified by passed user_id"""
+        user_to_update = self.find_user_by(id=user_id)
+        for key, value in kwargs.items():
+            if hasattr(user_to_update, key):
+                setattr(user_to_update, key, value)
+            else:
+                raise ValueError
+        self._session.commit()
