@@ -84,11 +84,10 @@ class Auth:
 
     def get_reset_password_token(self, email: str) -> str:
         """update a rest users token if user exist"""
-        find_user = self._db.find_user_by(email=email)
-        if not find_user:
-            raise ValueError
-        else:
-            resest_token = self._db._generate_uuid()
-            self._db.update_user(
-                    user_id=find_user.id, resest_token=resest_token)
+        try:
+            find_user = self._db.find_user_by(email=email)
+            resest_token = _generate_uuid()
+            self._db.update_user(find_user.id, resest_token=resest_token)
             return resest_token
+        except NoResultFound:
+            raise ValueError
