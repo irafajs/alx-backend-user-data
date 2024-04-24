@@ -52,7 +52,7 @@ def logout() -> str:
     get_user = AUTH.get_user_from_session_id(session_id)
     if get_user:
         AUTH.destroy_session(get_user.id)
-        return redirect(url_for('hone'))
+        return redirect("/")
     else:
         abort(403)
 
