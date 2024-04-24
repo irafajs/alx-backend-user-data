@@ -31,7 +31,7 @@ def register_users() -> str:
 
 
 @app.route('/sessions', methods=['POST'], strict_slashes=False)
-def login():
+def login() -> str:
     """method to handle user login"""
     email = request.form.get('email')
     password = request.form.get('password')
@@ -46,7 +46,7 @@ def login():
 
 
 @app.route('/sessions', methods=['DELETE'], strict_slashes=False)
-def logout():
+def logout() -> str:
     """method to logout the user"""
     session_id = request.cookies.get('session_id')
     get_user = AUTH.get_user_from_session_id(session_id)
