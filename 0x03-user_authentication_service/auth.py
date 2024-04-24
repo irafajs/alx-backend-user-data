@@ -10,6 +10,13 @@ from user import User
 from sqlalchemy.orm.exc import NoResultFound
 
 
+def _hash_password(password: str) -> bytes:
+    """method to hash the password"""
+    salt = bcrypt.gensalt()
+    hash_pass = bcrypt.hashpw(password.encode('utf-8'), salt)
+    return hash_pass
+
+
 class Auth:
     """Auth class to interact with the authentication database.
     """
@@ -24,12 +31,6 @@ class Auth:
             raise ValueError(f'User <email> already exists.')
         except NoResultFound:
             pass
-        hash_pass = self._hash_password(password)
+        hash_pass = _hash_password(password)
         save_user = self._db.add_user(email=email, hashed_password=hash_pass)
         return save_user
-
-    def _hash_password(self, password: str) -> bytes:
-        """method to hash the password"""
-        salt = bcrypt.gensalt()
-        hash_pass = bcrypt.hashpw(password.encode('utf-8'), salt)
-        return hash_pass
