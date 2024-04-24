@@ -7,6 +7,7 @@ Shebang to create a py script
 from auth import Auth
 from flask import Flask, jsonify, request, abort, make_response
 from flask import redirect
+from sqlalchemy.orm.exc import NoResultFound
 
 AUTH = Auth()
 app = Flask(__name__)
@@ -54,6 +55,20 @@ def logout() -> str:
         abort(403)
     AUTH.destroy_session(get_user.id)
     return redirect("/")
+
+
+@app.route('/profile', methods=['GET'], strict_slashes=False)
+def profile() -> str:
+    """method to load the user profile"""
+    try:
+        session_id = request.cookies.get('session_id')
+        get_user = AUTH.get_user_from_session_id(session_id)
+        if get_user:
+            return {"email": get_user.email}, 200
+        else:
+            abort(403)
+    except NoResultFound:
+        abort(403)
 
 
 if __name__ == "__main__":
