@@ -28,7 +28,7 @@ class Auth:
         """method to save the user with hashed password if he doesn't exist"""
         try:
             find_user = self._db.find_user_by(email=email)
-            raise ValueError(f'User <email> already exists.')
+            raise ValueError(f'User {email} already exists.')
         except NoResultFound:
             pass
         hash_pass = _hash_password(password)
