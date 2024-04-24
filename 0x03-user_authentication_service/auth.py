@@ -18,6 +18,12 @@ def _hash_password(password: str) -> bytes:
     return hash_pass
 
 
+def _generate_uuid() -> str:
+    """method to generate uuid"""
+    gen_uuid = str(uuid.uuid4())
+    return gen_uuid
+
+
 class Auth:
     """Auth class to interact with the authentication database.
     """
@@ -47,8 +53,3 @@ class Auth:
                 return check_pass
         except NoResultFound:
             return False
-
-    def _generate_uuid() -> str:
-        """method to generate uuid"""
-        gen_uuid = str(uuid.uuid4())
-        return gen_uuid
