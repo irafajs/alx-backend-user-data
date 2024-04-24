@@ -64,6 +64,8 @@ def profile() -> str:
     """method to load the user profile"""
     try:
         session_id = request.cookies.get('session_id')
+        if not session_id:
+            abort(403)
         get_user = AUTH.get_user_from_session_id(session_id)
         if get_user:
             return {"email": get_user.email}, 200
