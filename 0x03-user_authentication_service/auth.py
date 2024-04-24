@@ -81,3 +81,14 @@ class Auth:
             self._db.update_user(user_id=user_id, session_id=None)
         except NoResultFound:
             pass
+
+    def get_reset_password_token(self, email: str) -> str:
+        """update a rest users token if user exist"""
+        find_user = self._db.find_user_by(email=email)
+        if not find_user:
+            raise ValueError
+        else:
+            resest_token = self._db._generate_uuid()
+            self._db.update_user(
+                    user_id=find_user.id, resest_token=resest_token)
+            return resest_token
