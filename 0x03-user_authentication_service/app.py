@@ -6,7 +6,7 @@ Shebang to create a py script
 
 from auth import Auth
 from flask import Flask, jsonify, request, abort, make_response
-from flask import redirect, url_for
+from flask import redirect
 
 AUTH = Auth()
 app = Flask(__name__)
@@ -50,10 +50,10 @@ def logout() -> str:
     """method to logout the user"""
     session_id = request.cookies.get('session_id')
     get_user = AUTH.get_user_from_session_id(session_id)
-    if get_user:
-        AUTH.destroy_session(get_user.id)
-        return redirect("/")
-    abort(403)
+    if get_user is None:
+        abort(403)
+    AUTH.destroy_session(get_user.id)
+    return redirect("/")
 
 
 if __name__ == "__main__":
