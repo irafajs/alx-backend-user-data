@@ -75,15 +75,28 @@ def profile() -> str:
         abort(403)
 
 
-@app.route('/reset_password', methods=['POST'], strict_slashes=False)
+@app.route('/reset_password', methods=['POST', 'PUT'], strict_slashes=False)
 def get_reset_password_token() -> str:
     """method to handle password reset by token"""
-    try:
+    if request.method == 'POST':
+        try:
+            email = request.form.get('email')
+            reset_token = AUTH.get_reset_password_token(email)
+            return {"email": email, "reset_token": reset_token}, 200
+        except ValueError:
+            abort(403)
+    if request.method == 'PUT':
         email = request.form.get('email')
-        reset_token = AUTH.get_reset_password_token(email)
-        return {"email": email, "reset_token": reset_token}, 200
-    except ValueError:
-        abort(403)
+        reset_token = request.form.get('reset_token')
+        password = request.form.get('password')
+        try:
+            get_user = AUTH.get_user_from_session_id(email=email)
+            if get_user.reset_token != reset_token:
+                abort(403)
+            AUTH.update_password(reset_token, password)
+            return {"email": eamil, "message": "Password updated"}
+        except NoResultFound:
+            abort(403)
 
 
 if __name__ == "__main__":
