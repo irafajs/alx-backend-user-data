@@ -80,8 +80,8 @@ def get_reset_password_token() -> str:
     """method to handle password reset by token"""
     try:
         email = request.form.get('email')
-        em_ex = AUTH.get_reset_password_token(email)
-        return {"email": em_ex.email, "reset_token": em_ex.reset_token}, 200
+        reset_token = AUTH.get_reset_password_token(email)
+        return {"email": email, "reset_token": reset_token}, 200
     except NoResultFound:
         abort(403)
 
