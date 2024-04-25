@@ -95,6 +95,8 @@ def get_reset_password_token() -> str:
             return {"email": email, "message": "Password updated"}, 200
         except ValueError:
             abort(403)
+        except Exception as e:
+            abort(500)
 
 
 if __name__ == "__main__":
