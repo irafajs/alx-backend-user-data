@@ -82,7 +82,7 @@ def get_reset_password_token() -> str:
         email = request.form.get('email')
         reset_token = AUTH.get_reset_password_token(email)
         return {"email": email, "reset_token": reset_token}, 200
-    except NoResultFound:
+    except ValueError:
         abort(403)
 
 
