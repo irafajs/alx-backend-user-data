@@ -91,7 +91,7 @@ def get_reset_password_token() -> str:
             email = request.form.get('email')
             reset_token = request.form.get('reset_token')
             password = request.form.get('password')
-            AUTH.update_password(reset_token, new_password)
+            AUTH.update_password(reset_token, password)
             return {"email": email, "message": "Password updated"}, 200
         except ValueError:
             abort(403)
