@@ -90,11 +90,11 @@ def get_reset_password_token() -> str:
         reset_token = request.form.get('reset_token')
         password = request.form.get('password')
         try:
-            get_user = AUTH.get_user_from_session_id(email=email)
+            get_user = AUTH.get_user_from_session_id(session_id=reset_token)
             if get_user.reset_token != reset_token:
                 abort(403)
             AUTH.update_password(reset_token, password)
-            return {"email": eamil, "message": "Password updated"}
+            return {"email": email, "message": "Password updated"}
         except NoResultFound:
             abort(403)
 
