@@ -86,8 +86,8 @@ class Auth:
         """update a rest users token if user exist"""
         try:
             find_user = self._db.find_user_by(email=email)
-            resest_token = _generate_uuid()
-            self._db.update_user(find_user.id, resest_token=resest_token)
+            reset_token = _generate_uuid()
+            self._db.update_user(find_user.id, reset_token=reset_token)
             return resest_token
         except NoResultFound:
             raise ValueError()
