@@ -99,6 +99,7 @@ class Auth:
             if find_user.rest_token != reset_token:
                 raise ValueError()
             hash_pass = _hash_password(password)
-            self._db.update_user(find_user.id, hashed_password=hash_pass)
+            self._db.update_user(
+                    find_user.id, reset_token=None, hashed_password=hash_pass)
         except NoResultFound:
             raise ValueError()
