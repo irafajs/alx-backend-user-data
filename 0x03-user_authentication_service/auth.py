@@ -90,4 +90,4 @@ class Auth:
             self._db.update_user(find_user.id, resest_token=resest_token)
             return resest_token
         except NoResultFound:
-            raise ValueError
+            raise ValueError()
