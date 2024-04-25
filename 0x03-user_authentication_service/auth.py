@@ -96,7 +96,7 @@ class Auth:
         """method to update password using reset_token value"""
         try:
             find_user = self._db.find_user_by(reset_token=reset_token)
-            if find_user.rest_token != reset_token:
+            if find_user.reset_token != reset_token:
                 raise ValueError()
             hash_pass = _hash_password(password)
             self._db.update_user(
