@@ -78,11 +78,12 @@ def profile() -> str:
 @app.route('/reset_password', methods=['POST'], strict_slashes=False)
 def get_reset_password_token() -> str:
     """method to handle password reset by token"""
-    email = request.form.get('email')
-    em_ex = AUTH.get_reset_password_token(email)
-    if not em_ex.email:
+    try:
+        email = request.form.get('email')
+        em_ex = AUTH.get_reset_password_token(email)
+        return {"email": em_ex.email, "reset_token": em_ex.reset_token}, 200
+    except NoResultFound:
         abort(403)
-    return {"email": em_ex.email, "reset_token": em_ex.reset_token}, 200
 
 
 if __name__ == "__main__":
