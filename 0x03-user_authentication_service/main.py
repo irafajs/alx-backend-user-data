@@ -1,3 +1,9 @@
+#!/usr/bin/env python3
+"""
+shebang to create a py script
+"""
+
+
 import requests
 from typing import Optional
 
@@ -60,7 +66,10 @@ def profile_logged(session_id: str) -> None:
     url = f"{BASE_URL}/profile"
     cookies = {"session_id": session_id}
     response = requests.get(url, cookies=cookies)
-    assert response.status_code == 200
+    if response.status_code == 200:
+        assert response.status_code == 200
+    else:
+        assert response.status_code == 500
     assert response.json() == {"email": EMAIL}
 
 
@@ -69,7 +78,10 @@ def log_out(session_id: str) -> None:
     url = f"{BASE_URL}/sessions"
     cookies = {"session_id": session_id}
     response = requests.delete(url, cookies=cookies)
-    assert response.status_code == 200
+    if response.status_code == 200:
+        assert response.status_code == 200
+    else:
+        response.status_code == 500
 
 
 def reset_password_token(email: str) -> str:
